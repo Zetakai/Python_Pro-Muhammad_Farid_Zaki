@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Kodland Indonesia{% endblock %}</title>
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/kodland.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/kodland.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/kodland.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/kodland.png') }}">
+    <link rel="mask-icon" href="{{ url_for('static', filename='images/kodland.png') }}" color="#0ea5e9">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>

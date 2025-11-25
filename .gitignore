@@ -97,3 +97,7 @@ dmypy.json
 *.bak
 *.swp
 *~
+
+# Markdown files (except README.md)
+*.md
+!README.md
