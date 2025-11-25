@@ -82,7 +82,12 @@ body {
     flex-shrink: 0;
     /* Start hidden, akan di-show oleh JS jika cached atau setelah load */
     opacity: 0;
-    transition: opacity 0.1s ease-in;
+    transition: opacity 0.05s ease-in; /* Lebih cepat */
+}
+
+/* Jika gambar sudah loaded sebelum CSS ter-apply, langsung show */
+.logo-img[complete] {
+    opacity: 1;
 }
 
 .logo-img.loaded {
