@@ -6,19 +6,26 @@
 }
 
 :root {
-    --primary-color: #6366f1;
-    --primary-dark: #4f46e5;
-    --secondary-color: #8b5cf6;
-    --success-color: #10b981;
-    --error-color: #ef4444;
-    --warning-color: #f59e0b;
-    --bg-color: #f8fafc;
+    /* Tema warna unik - kombinasi teal/cyan dengan orange accent */
+    --primary-color: #0ea5e9;
+    --primary-dark: #0284c7;
+    --primary-light: #38bdf8;
+    --secondary-color: #f97316;
+    --secondary-dark: #ea580c;
+    --accent-color: #06b6d4;
+    --success-color: #22c55e;
+    --error-color: #f43f5e;
+    --warning-color: #fbbf24;
+    --bg-color: #f1f5f9;
     --card-bg: #ffffff;
-    --text-primary: #1e293b;
-    --text-secondary: #64748b;
-    --border-color: #e2e8f0;
-    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --border-color: #cbd5e1;
+    --gradient-primary: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 50%, #f97316 100%);
+    --gradient-card: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+    --shadow: 0 2px 4px 0 rgba(14, 165, 233, 0.1), 0 1px 3px 0 rgba(14, 165, 233, 0.08);
+    --shadow-lg: 0 10px 20px -5px rgba(14, 165, 233, 0.15), 0 4px 8px -2px rgba(14, 165, 233, 0.1);
+    --shadow-hover: 0 15px 30px -5px rgba(14, 165, 233, 0.2), 0 8px 16px -4px rgba(14, 165, 233, 0.15);
 }
 
 body {
@@ -40,13 +47,14 @@ body {
 
 /* Header */
 .header {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    background: var(--gradient-primary);
     color: white;
     padding: 1rem 0;
     box-shadow: var(--shadow-lg);
     position: sticky;
     top: 0;
     z-index: 100;
+    border-bottom: 3px solid rgba(255, 255, 255, 0.1);
 }
 
 .header .container {
@@ -57,9 +65,22 @@ body {
     gap: 1rem;
 }
 
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.logo-img {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+}
+
 .logo h1 {
     font-size: 1.5rem;
     font-weight: 700;
+    margin: 0;
 }
 
 .nav {
@@ -200,11 +221,13 @@ body {
 }
 
 .location-info {
-    background-color: #f0f4ff;
+    background: linear-gradient(90deg, rgba(14, 165, 233, 0.1) 0%, rgba(6, 182, 212, 0.05) 100%);
     border-left: 4px solid var(--primary-color);
     padding: 0.75rem 1rem;
     margin-bottom: 1rem;
-    border-radius: 6px;
+    border-radius: 8px;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
 }
 
 .location-info p {
@@ -240,6 +263,7 @@ body {
 .city-input:focus {
     outline: none;
     border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
 }
 
 .weather-forecast {
@@ -249,12 +273,37 @@ body {
 }
 
 .weather-card {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--gradient-card);
     color: white;
     padding: 1.5rem;
-    border-radius: 12px;
+    border-radius: 16px;
     text-align: center;
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.weather-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+.weather-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: var(--shadow-hover);
 }
 
 .weather-day h4 {
@@ -354,14 +403,32 @@ body {
 }
 
 .btn-primary {
-    background-color: var(--primary-color);
+    background: var(--gradient-primary);
     color: white;
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn-primary:hover::before {
+    left: 100%;
 }
 
 .btn-primary:hover {
-    background-color: var(--primary-dark);
     transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-hover);
+    filter: brightness(1.05);
 }
 
 .btn-secondary {
@@ -506,9 +573,15 @@ body {
 
 .quiz-container {
     background: var(--card-bg);
-    border-radius: 12px;
+    border-radius: 16px;
     padding: 2rem;
     box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-color);
+    transition: box-shadow 0.3s;
+}
+
+.quiz-container:hover {
+    box-shadow: var(--shadow-hover);
 }
 
 .question-card h3 {
@@ -535,7 +608,9 @@ body {
 
 .option-label:hover {
     border-color: var(--primary-color);
-    background-color: #f0f4ff;
+    background: linear-gradient(90deg, rgba(14, 165, 233, 0.05) 0%, rgba(6, 182, 212, 0.05) 100%);
+    transform: translateX(5px);
+    box-shadow: var(--shadow);
 }
 
 .option-radio {

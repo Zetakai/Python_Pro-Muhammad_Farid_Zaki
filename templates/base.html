@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Kodland Indonesia{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/kodland.png') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
@@ -11,6 +12,7 @@
     <header class="header">
         <div class="container">
             <div class="logo">
+                <img src="{{ url_for('static', filename='images/kodland.png') }}" alt="Kodland Indonesia" class="logo-img">
                 <h1>Kodland Indonesia</h1>
             </div>
             <nav class="nav">

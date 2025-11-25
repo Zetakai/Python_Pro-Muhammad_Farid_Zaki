@@ -75,8 +75,9 @@ Python_Pro-Muhammad_Farid_Zaki/
 ├── static/
 │   ├── css/
 │   │   └── style.css        # Styling modern & responsive
-│   └── js/
-│       └── main.js          # JavaScript untuk flash messages
+│   ├── js/
+│   │   └── main.js          # JavaScript untuk flash messages
+│   └── images/              # Folder untuk gambar/logo
 ├── .env                     # Environment variables (API keys)
 ├── .gitignore               # Git ignore rules
 ├── run.py                   # Entry point untuk development
