@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Kuis - Kodland Indonesia{% endblock %}
+
+{% block content %}
+<div class="quiz-page">
+    <div class="quiz-header">
+        <h2>❓ Kuis AI Python</h2>
+        <div class="score-display">
+            <span class="score-label">Total Skor Kamu:</span>
+            <span class="score-value" id="total-score">{{ total_score }}</span>
+        </div>
+    </div>
+
+    <div class="quiz-container" id="quiz-container">
+        <div class="question-card">
+            <h3 class="question-text">{{ question.question }}</h3>
+            
+            <form id="quiz-form" class="quiz-options">
+                {% for option in question.options %}
+                <label class="option-label">
+                    <input 
+                        type="radio" 
+                        name="answer" 
+                        value="{{ loop.index0 }}" 
+                        required
+                        class="option-radio"
+                    >
+                    <span class="option-text">{{ option }}</span>
+                </label>
+                {% endfor %}
+                
+                <button type="submit" class="btn btn-primary btn-large">Kirim Jawaban</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="result-container" class="result-container" style="display: none;">
+        <div class="result-card">
+            <h3 id="result-title"></h3>
+            <p id="result-message"></p>
+            <div class="result-actions">
+                <button onclick="loadNextQuestion()" class="btn btn-primary">Pertanyaan Berikutnya</button>
+                <a href="{{ url_for('routes.leaderboard') }}" class="btn btn-secondary">Lihat Papan Peringkat</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Simpan data pertanyaan untuk validasi
+    const questionData = {{ question | tojson }};
+    
+    document.getElementById('quiz-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+        if (!selectedAnswer) return;
+        
+        const formData = {
+            answer: selectedAnswer.value,
+            question_index: null  // Bisa diisi kalau perlu tracking
+        };
+        
+        try {
+            const response = await fetch('{{ url_for("routes.check_answer") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+            
+            const result = await response.json();
+            
+            // Tampilkan hasil
+            showResult(result);
+            
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Terjadi error saat mengirim jawaban');
+        }
+    });
+    
+    function showResult(result) {
+        const quizContainer = document.getElementById('quiz-container');
+        const resultContainer = document.getElementById('result-container');
+        const resultTitle = document.getElementById('result-title');
+        const resultMessage = document.getElementById('result-message');
+        const totalScoreEl = document.getElementById('total-score');
+        
+        quizContainer.style.display = 'none';
+        resultContainer.style.display = 'block';
+        
+        if (result.correct) {
+            resultTitle.textContent = '✅ Benar!';
+            resultTitle.style.color = '#10b981';
+            resultMessage.textContent = `Kamu dapat ${result.score_added} poin! Total skor sekarang: ${result.total_score}`;
+        } else {
+            resultTitle.textContent = '❌ Salah!';
+            resultTitle.style.color = '#ef4444';
+            const correctAnswer = questionData.options[result.correct_answer];
+            resultMessage.textContent = `Jawaban yang benar: ${correctAnswer}. Total skor kamu: ${result.total_score}`;
+        }
+        
+        totalScoreEl.textContent = result.total_score;
+    }
+    
+    function loadNextQuestion() {
+        // Reload halaman untuk dapat pertanyaan baru (random)
+        window.location.reload();
+    }
+</script>
+{% endblock %}
+

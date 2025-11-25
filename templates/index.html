@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Beranda - Kodland Indonesia{% endblock %}
+
+{% block content %}
+<div class="home-page">
+    <section class="hero">
+        <h2>Selamat Datang di Kuis AI Python!</h2>
+        <p>Uji pengetahuanmu tentang Artificial Intelligence, Computer Vision, NLP, dan Python!</p>
+    </section>
+
+    <section class="weather-widget">
+        <h3>🌤️ Ramalan Cuaca</h3>
+        {% if city %}
+        <div class="location-info">
+            <p>Lokasi: <strong>{{ city }}</strong> {% if not request.args.get('city') %}(terdeteksi otomatis){% endif %}</p>
+        </div>
+        {% endif %}
+        <form method="GET" action="{{ url_for('routes.index') }}" class="weather-form">
+            <div class="form-group">
+                <input 
+                    type="text" 
+                    name="city" 
+                    placeholder="Masukkan nama kota (contoh: Jakarta, Bandung)" 
+                    value="{{ city }}"
+                    class="city-input"
+                >
+                <button type="submit" class="btn btn-primary">Cari Cuaca</button>
+            </div>
+        </form>
+
+        {% if weather_data %}
+        <div class="weather-forecast">
+            {% for forecast in weather_data %}
+            <div class="weather-card">
+                <div class="weather-day">
+                    <h4>{{ forecast.day_name }}</h4>
+                    <p class="weather-date">{{ forecast.date }}</p>
+                </div>
+                <div class="weather-icon">
+                    <img src="http://openweathermap.org/img/wn/{{ forecast.icon }}@2x.png" alt="{{ forecast.description }}">
+                </div>
+                <div class="weather-temps">
+                    {% if forecast.day_temp %}
+                        <div class="temp-item">
+                            <span class="temp-label">Siang:</span>
+                            <span class="temp-value">{{ forecast.day_temp }}°C</span>
+                        </div>
+                    {% endif %}
+                    {% if forecast.night_temp %}
+                        <div class="temp-item">
+                            <span class="temp-label">Malam:</span>
+                            <span class="temp-value">{{ forecast.night_temp }}°C</span>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="weather-desc">{{ forecast.description }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        {% elif city %}
+        <div class="weather-error">
+            <p>⚠️ Tidak dapat mengambil data cuaca untuk "{{ city }}". Pastikan nama kota benar atau cek API key.</p>
+        </div>
+        {% else %}
+        <div class="weather-placeholder">
+            <p>Masukkan nama kota di atas untuk melihat ramalan cuaca 3 hari ke depan</p>
+        </div>
+        {% endif %}
+    </section>
+
+    {% if not current_user.is_authenticated %}
+    <section class="cta-section">
+        <h3>Mulai Kuis Sekarang!</h3>
+        <p>Daftar atau login untuk mulai menjawab pertanyaan kuis dan naikkan peringkatmu!</p>
+        <div class="cta-buttons">
+            <a href="{{ url_for('routes.register') }}" class="btn btn-large btn-primary">Daftar Sekarang</a>
+            <a href="{{ url_for('routes.login') }}" class="btn btn-large btn-secondary">Login</a>
+        </div>
+    </section>
+    {% endif %}
+</div>
+{% endblock %}
+

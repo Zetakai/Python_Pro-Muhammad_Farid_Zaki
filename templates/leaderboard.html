@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Papan Peringkat - Kodland Indonesia{% endblock %}
+
+{% block content %}
+<div class="leaderboard-page">
+    <div class="leaderboard-header">
+        <h2>🏆 Papan Peringkat</h2>
+        <p>Lihat siapa yang memiliki skor tertinggi!</p>
+    </div>
+
+    <div class="leaderboard-table-container">
+        {% if leaderboard %}
+        <table class="leaderboard-table">
+            <thead>
+                <tr>
+                    <th>Peringkat</th>
+                    <th>Nama</th>
+                    <th>Login</th>
+                    <th>Total Skor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in leaderboard %}
+                <tr {% if current_user.is_authenticated and entry.login == current_user.login %}class="current-user"{% endif %}>
+                    <td class="rank">
+                        {% if loop.index == 1 %}🥇
+                        {% elif loop.index == 2 %}🥈
+                        {% elif loop.index == 3 %}🥉
+                        {% else %}#{{ loop.index }}
+                        {% endif %}
+                    </td>
+                    <td class="nickname">{{ entry.nickname }}</td>
+                    <td class="login">{{ entry.login }}</td>
+                    <td class="score">{{ entry.total_score }} poin</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="empty-leaderboard">
+            <p>Belum ada data peringkat. Mulai bermain kuis untuk muncul di sini!</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="leaderboard-actions">
+        <a href="{{ url_for('routes.quiz') }}" class="btn btn-primary">Main Lagi</a>
+        <a href="{{ url_for('routes.index') }}" class="btn btn-secondary">Kembali ke Beranda</a>
+    </div>
+</div>
+{% endblock %}
+
