@@ -74,18 +74,23 @@ body {
 .logo-img {
     height: 40px;
     width: 40px;
-    min-width: 40px; /* Reserve space untuk mencegah layout shift */
+    min-width: 40px;
     object-fit: cover;
     border-radius: 50%;
     border: 2px solid rgba(255, 255, 255, 0.3);
     display: block;
     flex-shrink: 0;
-    /* Start hidden, akan di-show oleh JS jika cached atau setelah load */
+    /* Background color #5988FF saat loading (terlihat saat opacity 0) */
+    background-color: #5988FF;
     opacity: 0;
-    transition: opacity 0.05s ease-in; /* Lebih cepat */
+    transition: opacity 0.05s ease-in;
 }
 
-/* Jika gambar sudah loaded sebelum CSS ter-apply, langsung show */
+/* Background tetap terlihat meski opacity 0 */
+.logo-img:not(.loaded) {
+    background-color: #5988FF;
+}
+
 .logo-img[complete] {
     opacity: 1;
 }

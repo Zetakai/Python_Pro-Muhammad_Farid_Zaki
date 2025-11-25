@@ -81,7 +81,7 @@ Python_Pro-Muhammad_Farid_Zaki/
 ├── .env                     # Environment variables (API keys)
 ├── .gitignore               # Git ignore rules
 ├── run.py                   # Entry point untuk development
-├── wsgi.py                  # WSGI config untuk PythonAnywhere
+├── cocoanutx_pythonanywhere_com_wsgi.py  # WSGI template (reference)
 ├── test_setup.py            # Script untuk test dependencies
 ├── requirements.txt         # Python dependencies
 └── README.md                # Dokumentasi
@@ -110,19 +110,59 @@ Python_Pro-Muhammad_Farid_Zaki/
 
 ## Deployment ke PythonAnywhere
 
-1. Upload semua file ke PythonAnywhere
-2. Install dependencies di bash console:
+### Setup Awal
+
+1. **Clone dari GitHub** (recommended):
    ```bash
+   cd ~
+   git clone https://github.com/yourusername/your-repo.git Python_Pro-Muhammad_Farid_Zaki
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   cd ~/Python_Pro-Muhammad_Farid_Zaki
    pip3.10 install --user -r requirements.txt
    ```
-3. Buat file `.env` dengan API key:
+
+3. **Buat file `.env`:**
+   ```bash
+   nano .env
+   # Isi: WEATHER_API_KEY=your_api_key_here
    ```
-   WEATHER_API_KEY=your_api_key_here
+
+4. **Edit WSGI configuration** di Web tab (klik link WSGI configuration file):
+   ```python
+   import sys
+   import os
+   
+   # Ganti 'yourusername' dengan username PythonAnywhere kamu
+   path = '/home/yourusername/Python_Pro-Muhammad_Farid_Zaki'
+   if path not in sys.path:
+       sys.path.insert(0, path)
+   
+   # Change working directory
+   os.chdir(path)
+   
+   # Load environment variables
+   from dotenv import load_dotenv
+   load_dotenv(os.path.join(path, '.env'))
+   
+   # Import dan create aplikasi
+   from app import create_app
+   application = create_app()
    ```
-4. Edit file `wsgi.py` dan sesuaikan path project
-5. Edit WSGI configuration di PythonAnywhere dashboard untuk point ke `wsgi.py`
-6. Set environment variables jika perlu
-7. Reload web app
+   
+   **Note:** File `cocoanutx_pythonanywhere_com_wsgi.py` di project bisa dijadikan referensi, tapi edit langsung di PythonAnywhere dashboard.
+
+5. **Reload web app** di Web tab
+
+### Update Project
+
+```bash
+cd ~/Python_Pro-Muhammad_Farid_Zaki
+git pull origin main
+# Reload web app di dashboard
+```
 
 ## Catatan Penting
 

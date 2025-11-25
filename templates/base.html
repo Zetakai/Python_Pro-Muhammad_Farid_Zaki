@@ -20,17 +20,6 @@
                 <img src="{{ url_for('static', filename='images/kodland.png') }}" alt="Kodland Indonesia" class="logo-img" loading="eager" decoding="sync" onload="this.style.opacity='1';this.classList.add('loaded');">
                 <h1>Kodland Indonesia</h1>
             </div>
-            <script>
-                // Instant check untuk logo jika sudah cached (sebelum DOM ready)
-                (function() {
-                    const logoImg = document.querySelector('.logo-img');
-                    if (logoImg && logoImg.complete && logoImg.naturalHeight !== 0) {
-                        logoImg.style.opacity = '1';
-                        logoImg.style.transition = 'none';
-                        logoImg.classList.add('loaded');
-                    }
-                })();
-            </script>
             <nav class="nav">
                 <a href="{{ url_for('routes.index') }}" class="nav-link">Beranda</a>
                 
