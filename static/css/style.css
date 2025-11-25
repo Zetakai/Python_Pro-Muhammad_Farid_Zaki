@@ -74,9 +74,41 @@ body {
 .logo-img {
     height: 40px;
     width: 40px;
+    min-width: 40px; /* Reserve space untuk mencegah layout shift */
     object-fit: cover;
     border-radius: 50%;
     border: 2px solid rgba(255, 255, 255, 0.3);
+    display: block;
+    flex-shrink: 0;
+    /* Start hidden, akan di-show oleh JS jika cached atau setelah load */
+    opacity: 0;
+    transition: opacity 0.1s ease-in;
+}
+
+.logo-img.loaded {
+    opacity: 1;
+}
+
+/* Reusable class untuk gambar yang perlu fade-in effect */
+.fade-in-on-load {
+    opacity: 0;
+    transition: opacity 0.1s ease-in;
+}
+
+.fade-in-on-load.loaded {
+    opacity: 1;
+}
+
+/* Fallback: show gambar setelah 50ms jika JS tidak jalan (sangat cepat) */
+.logo-img:not(.loaded),
+.fade-in-on-load:not(.loaded) {
+    animation: fadeInImage 0.1s ease-in 0.05s forwards;
+}
+
+@keyframes fadeInImage {
+    to {
+        opacity: 1;
+    }
 }
 
 .logo h1 {
