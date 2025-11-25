@@ -82,8 +82,16 @@ body {
     flex-shrink: 0;
     /* Background color #5988FF saat loading (terlihat saat opacity 0) */
     background-color: #5988FF;
+    background-size: cover;
+    background-position: center;
     opacity: 0;
     transition: opacity 0.05s ease-in;
+    /* Ensure no text appears */
+    text-indent: -9999px;
+    overflow: hidden;
+    font-size: 0;
+    line-height: 0;
+    color: transparent;
 }
 
 /* Background tetap terlihat meski opacity 0 */
