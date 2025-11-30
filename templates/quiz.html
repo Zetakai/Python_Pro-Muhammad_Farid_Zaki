@@ -88,6 +88,10 @@
         const resultTitle = document.getElementById('result-title');
         const resultMessage = document.getElementById('result-message');
         const totalScoreEl = document.getElementById('total-score');
+        const quizForm = document.getElementById('quiz-form');
+        
+        // Reset form (uncheck semua radio buttons)
+        quizForm.reset();
         
         quizContainer.style.display = 'none';
         resultContainer.style.display = 'block';
@@ -107,6 +111,8 @@
     }
     
     function loadNextQuestion() {
+        // Reset form sebelum reload
+        document.getElementById('quiz-form').reset();
         // Reload halaman untuk dapat pertanyaan baru (random)
         window.location.reload();
     }

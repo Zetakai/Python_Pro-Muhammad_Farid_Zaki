@@ -104,6 +104,22 @@ def quiz():
     # Ambil pertanyaan random
     question_data = get_random_question()
     
+    # Acak urutan opsi agar jawaban benar tidak selalu di posisi pertama
+    import random
+    options = question_data['options'].copy()
+    correct_index = question_data['correct']
+    correct_answer = options[correct_index]
+    
+    # Shuffle opsi
+    random.shuffle(options)
+    
+    # Cari index baru untuk jawaban benar setelah di-shuffle
+    new_correct_index = options.index(correct_answer)
+    
+    # Update question data dengan opsi yang sudah di-shuffle
+    question_data['options'] = options
+    question_data['correct'] = new_correct_index
+    
     # Simpan pertanyaan di session untuk validasi nanti
     session['current_question'] = question_data
     
